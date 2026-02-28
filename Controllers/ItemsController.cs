@@ -14,7 +14,7 @@ namespace praktika22.Controllers
         VMItems VMItems = new VMItems();
 
         private readonly IHostingEnvironment hostingEnvironment;
-        
+
         public ItemsController(IItems IAllItems, ICategorys IAllCategorys, IHostingEnvironment hostingEnvironment)
         {
             this.IAllItems = IAllItems;
@@ -37,6 +37,13 @@ namespace praktika22.Controllers
         {
             IEnumerable<Data.Models.Categorys> Categorys = IAllCategorys.AllCategorys;
             return View(Categorys);
+        }
+
+        [HttpGet]
+        public ViewResult Delete()
+        {
+            IEnumerable<Data.Models.Items> Items = IAllItems.AllItems;
+            return View(Items);
         }
 
         [HttpPost]

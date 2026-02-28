@@ -76,5 +76,13 @@ namespace praktika22.Data.DataBase
             sql.Close();
             return IdItem;
         }
+
+        public void Delete(Items Item)
+        {
+            MySqlConnection sql = Connection.mySqlOpen();
+            Connection.mySqlQuery(
+                $"DELETE FROM `Items` WHERE `Id` = {Item.Id};", sql);
+            sql.Close();
+        }
     }
 }

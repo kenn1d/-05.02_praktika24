@@ -36,5 +36,10 @@ namespace praktika22.Data.Mocks
                 };
             }
         }
+
+        public int Add(Items item)
+        {
+            return 0;
+        }
     }
 }

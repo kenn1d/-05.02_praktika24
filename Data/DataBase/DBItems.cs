@@ -2,6 +2,7 @@
 using praktika22.Data.Common;
 using praktika22.Data.Interfaces;
 using praktika22.Data.Models;
+using System.ComponentModel;
 
 namespace praktika22.Data.DataBase
 {
@@ -63,10 +64,11 @@ namespace praktika22.Data.DataBase
                 sql);
             sql.Close();
 
+            // для редиректа (получаем id нового элмента)
             int IdItem = -1;
             sql= Connection.mySqlOpen();
             MySqlDataReader mySqlDataReaderItem = Connection.mySqlQuery(
-                $"SELECT `Id` FROM `Items` WHERE `Name` = {Item.Name} AND `Description` = {Item.Description} AND `Price` = {Item.Price} AND `IdCategory` = {Item.Category.Id};",
+                $"SELECT `Id` FROM `Items` WHERE `Name` = '{Item.Name}' AND `Description` = '{Item.Description}' AND `Price` = {Item.Price} AND `IdCategory` = {Item.Category.Id};",
                 sql);
             if (mySqlDataReaderItem.HasRows)
             {
@@ -77,11 +79,19 @@ namespace praktika22.Data.DataBase
             return IdItem;
         }
 
-        public void Delete(Items Item)
+        public void Delete(int idItem)
         {
             MySqlConnection sql = Connection.mySqlOpen();
             Connection.mySqlQuery(
-                $"DELETE FROM `Items` WHERE `Id` = {Item.Id};", sql);
+                $"DELETE FROM `Items` WHERE `Id` = {idItem};", sql);
+            sql.Close();
+        }
+
+        public void Update(Items Item)
+        {
+            MySqlConnection sql = Connection.mySqlOpen();
+            Connection.mySqlQuery(
+                $"UPDATE `Items` SET `Name`='{Item.Name}',`Description`='{Item.Description}',`Img`='{Item.Img}',`Price`={Item.Price},`IdCategory`={Item.Category.Id} WHERE `Id` = {Item.Id}", sql);
             sql.Close();
         }
     }

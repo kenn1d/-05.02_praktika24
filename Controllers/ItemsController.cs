@@ -3,7 +3,7 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using praktika22.Data.Interfaces;
 using praktika22.Data.Models;
 using praktika22.Data.ViewModell;
-using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 
 namespace praktika22.Controllers
 {
@@ -46,6 +46,14 @@ namespace praktika22.Controllers
             return View(Items);
         }
 
+        [HttpGet]
+        public ViewResult Update()
+        {
+            VMItems.Items = IAllItems.AllItems;
+            VMItems.Categorys = IAllCategorys.AllCategorys;
+            return View(VMItems);
+        }
+
         [HttpPost]
         public RedirectResult Add(string name, string description, IFormFile files, float price, int idCategory)
         {
@@ -59,12 +67,40 @@ namespace praktika22.Controllers
             Items newItems = new Items();
             newItems.Name = name;
             newItems.Description = description;
-            newItems.Img = files.FileName;
+            newItems.Img = "/img/" + files.FileName;
             newItems.Price = (int)price;
             newItems.Category = new Categorys() { Id = idCategory };
 
             int id = IAllItems.Add(newItems);
-            return Redirect("/Items/Update?id=" + id);
+            return Redirect("/Items/List?id=" + newItems.Category.Id);
+        }
+
+        [HttpPost]
+        public RedirectResult Delete(int idItem)
+        {
+            if (idItem != 0)
+            {
+                Items categoryItem = IAllItems.AllItems.First(x => x.Id == idItem);
+                IAllItems.Delete(idItem);
+                return Redirect("/Items/List?id=" + categoryItem.Category.Id);
+            }
+
+            return Redirect("/Items/List");
+        }
+
+        [HttpPost]
+        public RedirectResult Update(int idItem, string name, string description, IFormFile files, float price, int idCategory)
+        {
+            Items updateItem = new Items();
+            updateItem.Id = idItem;
+            updateItem.Name = name;
+            updateItem.Description = description;
+            updateItem.Img = "/img/" + files.FileName;
+            updateItem.Price = (int)price;
+            updateItem.Category = new Categorys() { Id = idCategory };
+
+            IAllItems.Update(updateItem);
+            return Redirect("/Items/List?id=" + idCategory);
         }
     }
 }

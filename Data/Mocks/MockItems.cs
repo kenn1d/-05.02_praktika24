@@ -42,9 +42,8 @@ namespace praktika22.Data.Mocks
             return 0;
         }
 
-        public int Delete(Items item)
-        {
-            return 0;
-        }
+        public void Delete(int idItem) { }
+
+        public void Update(Items item) { }
     }
 }

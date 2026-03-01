@@ -7,6 +7,7 @@ namespace praktika22.Data.Interfaces
         public IEnumerable<Items> AllItems {  get; }
 
         public int Add(Items Item);
-        public int Delete(Items Item);
+        public void Delete(int idItem);
+        public void Update(Items Item);
     }
 }

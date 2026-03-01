@@ -26,5 +26,26 @@ namespace praktika22.Data.DataBase
                 return categorys;
             }
         }
+
+        public void Add(string Name, string Desc)
+        {
+            MySqlConnection connection = Connection.mySqlOpen();
+            Connection.mySqlQuery($"INSERT INTO `Categorys`(`Name`, `Description`) VALUES ('{Name}','{Desc}')", connection);
+            connection.Close();
+        }
+
+        public void Delete(int Id)
+        {
+            MySqlConnection connection = Connection.mySqlOpen();
+            Connection.mySqlQuery($"DELETE FROM `Categorys` WHERE `Id` = {Id}", connection);
+            connection.Close();
+        }
+
+        public void Update(Categorys category)
+        {
+            MySqlConnection connection = Connection.mySqlOpen();
+            Connection.mySqlQuery($"UPDATE `Categorys` SET `Name`='{category.Name}',`Description`='{category.Description}' WHERE `Id` = {category.Id}", connection);
+            connection.Close();
+        }
     }
 }

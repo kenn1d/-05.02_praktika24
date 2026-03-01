@@ -28,5 +28,9 @@ namespace praktika22.Data.Mocks
                 };
             }
         }
+
+        public void Add(string Name, string Desc) { }
+        public void Delete(int Id) { }
+        public void Update(Categorys category) { }
     }
 }

@@ -95,6 +95,14 @@ namespace praktika22.Controllers
             updateItem.Id = idItem;
             updateItem.Name = name;
             updateItem.Description = description;
+
+            if (files != null)
+            {
+                var uploads = Path.Combine(hostingEnvironment.WebRootPath, "img");
+                var filePath = Path.Combine(uploads, files.FileName);
+                files.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+
             updateItem.Img = "/img/" + files.FileName;
             updateItem.Price = (int)price;
             updateItem.Category = new Categorys() { Id = idCategory };
